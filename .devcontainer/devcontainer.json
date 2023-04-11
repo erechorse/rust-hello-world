@@ -1,0 +1,6 @@
+{
+    "name": "db-relay-tester",
+    "dockerComposeFile": "./compose.yaml",
+    "service": "app",
+    "workspaceFolder": "/workspace"
+}
