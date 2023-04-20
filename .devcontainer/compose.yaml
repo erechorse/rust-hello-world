@@ -1,18 +1,15 @@
 version: "3.8"
 services:
   app:
-    image: rust:1.68.2
+    build: .
     container_name: app
     volumes:
       - ..:/workspace
     working_dir: /workspace
     command: /bin/sh
     tty: true
-    expose:
-      - 3000
     environment:
-      - TEST_RELAY_URL=relay
-      - TEST_DB_URL=db
+      - DATABASE_URL=postgres://postgres:password@db/postgres
     depends_on:
       - relay
       - db
@@ -22,14 +19,15 @@ services:
     restart: always
     ports:
       - 7000:8080
-    volumes:
-      - ../data:/usr/src/app/db
   db:
     image: postgres:15.2
     restart: always
+    environment:
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+  adminer:
+    image: adminer
+    restart: always
     ports:
       - 8080:8080
-    expose:
-      - 5432
-    environment:
-      - POSTGRES_PASSWORD=passw0rd
